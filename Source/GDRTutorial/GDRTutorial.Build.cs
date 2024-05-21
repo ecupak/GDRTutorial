@@ -15,6 +15,7 @@ public class GDRTutorial : ModuleRules
 			"UnrealEd",
 			"InputCore",
 			"HTTP",
+			"Json",
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
