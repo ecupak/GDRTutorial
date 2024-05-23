@@ -16,6 +16,8 @@ public class GDRTutorial : ModuleRules
 			"InputCore",
 			"HTTP",
 			"Json",
+			"Sockets",
+			"Networking",
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
