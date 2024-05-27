@@ -1,7 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "HostSocket.h"
-#include <string>
 
 
 AHostSocket::AHostSocket()
@@ -34,19 +33,33 @@ void AHostSocket::BeginPlay()
 
 	Socket = nullptr;
 
-	if (SocketSubsystem != nullptr)
+	if (true) 
 	{
-		if (Socket == nullptr)
+		if (SocketSubsystem != nullptr)
 		{
-			Socket = FUdpSocketBuilder(SocketDescription)
-				.AsNonBlocking()
-				.AsReusable()
-				.BoundToEndpoint(LocalEndpoint)
-				.WithReceiveBufferSize(SendSize)
-				.WithReceiveBufferSize(BufferSize)
-				.WithBroadcast();
+			if (Socket == nullptr)
+			{
+				Socket = FUdpSocketBuilder(SocketDescription)
+					.AsNonBlocking()
+					.AsReusable()
+					.BoundToEndpoint(LocalEndpoint)
+					.WithReceiveBufferSize(SendSize)
+					.WithReceiveBufferSize(BufferSize)
+					.WithBroadcast();
+
+				if (Socket)
+				{
+					GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Created UDP Socket!");
+				}
+				else
+				{
+					GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Failure to create UDP Socket!");
+				}
+			}
 		}
 	}
+
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Finish BeginPlay for UDP Socket");
 }
 
 
@@ -64,7 +77,7 @@ void AHostSocket::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	Listen(); // Listen for messages
+	//Listen(); // Listen for messages
 }
 
 
@@ -91,8 +104,12 @@ void AHostSocket::Listen()
 
 
 bool AHostSocket::SendMessage(FString Message)
-{
-	if (!Socket) return false;
+{	
+	if (!Socket)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Socket failure.");
+		return false;
+	}
 
 	int32 BytesSent;
 
@@ -100,13 +117,15 @@ bool AHostSocket::SendMessage(FString Message)
 
 	TCHAR* serializedChar = Message.GetCharArray().GetData();
 	int32 size = FCString::Strlen(serializedChar);
-
+		
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Sending UDP message.");
 	bool success = Socket->SendTo(
 		(uint8*)TCHAR_TO_UTF8(serializedChar), 
 		size, 
 		BytesSent, 
 		*RemoteEndpoint.ToInternetAddr()
 	);
+
 
 	UE_LOG(LogTemp, Warning, 
 		TEXT("Sent message: %s : %s : Address - %s : BytesSent - %d"), 

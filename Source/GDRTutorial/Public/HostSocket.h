@@ -7,8 +7,6 @@
 #include "Networking.h"
 #include "HostSocket.generated.h"
 
-#define print(text) if (GEngine) GEngine->AddOnScreenDebugMessage(1, 1.5f, FColor::White, text, false);
-
 
 UCLASS()
 class GDRTUTORIAL_API AHostSocket : public AActor
@@ -25,17 +23,17 @@ public:
 	// Local Endpoint
 	FString SocketDescription = "UDP Listen Socket";
 	FIPv4Endpoint LocalEndpoint;
-	uint16 LocalPort = 54000;
+	uint16 LocalPort = 7777;
 	int32 SendSize = 0;
 	TArray<uint8> ReceivedData;
 
 	// Remote Endpoint
 	FIPv4Endpoint RemoteEndpoint;
 	FIPv4Address RemoteAddress;
-	uint16 RemotePort = 54001;
+	uint16 RemotePort = 55895;
 	int32 BufferSize = 0;
-	FString IP = "192.168.50.232";
-	//FString IP = "127.0.0.1";
+	//FString IP = "192.168.50.232";
+	FString IP = "127.0.0.1";
 
 	ISocketSubsystem* SocketSubsystem = nullptr;
 
