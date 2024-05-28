@@ -30,7 +30,7 @@ public:
 	// Remote Endpoint
 	FIPv4Endpoint RemoteEndpoint;
 	FIPv4Address RemoteAddress;
-	uint16 RemotePort = 55895;
+	uint16 RemotePort = 53953;
 	int32 BufferSize = 0;
 	//FString IP = "192.168.50.232";
 	FString IP = "127.0.0.1";

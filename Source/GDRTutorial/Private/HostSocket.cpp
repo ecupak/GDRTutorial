@@ -77,7 +77,7 @@ void AHostSocket::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	//Listen(); // Listen for messages
+	Listen(); // Listen for messages
 }
 
 
